@@ -1,19 +1,22 @@
-// Import the express in typescript file
 import express from 'express';
 
-// Initialize the express engine
 const app: express.Application = express();
 
-// Take a port 3000 for running server.
 const port = 3001;
 
-// Handling '/' Request
-app.get('/', (_req, _res) => {
-  _res.send("TypeScript With Express");
+app.get('/', (req, res) => {
+  res.send("Advent of Code solver?");
 });
 
-// Server setup
+app.get(/^\/\d+\/\d+$/, (req, res) => {
+  const parse = req.path.match(/\/(\d+)\/(\d+)/);
+  if (parse) { // should be unnecessary but eslint insists that parse could be null so...
+    res.send(`Looking for solution to day ${parse[1]}/${parse[2]}`)
+  } else {
+    res.send('Invalid');
+  }
+})
+
 app.listen(port, () => {
-  console.log(`TypeScript with Express
-    http://localhost:${port}/`);
+  console.log(`Running on port ${port}`);
 });
