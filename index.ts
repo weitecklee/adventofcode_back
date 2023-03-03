@@ -1,4 +1,5 @@
 import express from 'express';
+import validate from './solutions/validate';
 
 const app: express.Application = express();
 
@@ -8,12 +9,16 @@ app.get('/', (req, res) => {
   res.send("Advent of Code solver?");
 });
 
-app.get(/^\/\d+\/\d+$/, (req, res) => {
+app.get(/^\/.+$/, (req, res) => {
   const parse = req.path.match(/\/(\d+)\/(\d+)/);
-  if (parse) { // should be unnecessary but eslint insists that parse could be null so...
-    res.send(`Looking for solution to day ${parse[1]}/${parse[2]}`)
+  if (parse) {
+    if (validate(parse[1], parse[2])) {
+      res.status(200).send(`Looking for solution to day ${parse[1]}/${parse[2]}`);
+    } else {
+      res.status(404).send('Invalid date');
+    }
   } else {
-    res.send('Invalid');
+    res.status(404).send('Invalid path');
   }
 })
 
