@@ -1,5 +1,5 @@
 import express from 'express';
-import validate from './solutions/validate';
+import validate from './validate';
 
 const app: express.Application = express();
 
